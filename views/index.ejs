@@ -5,6 +5,7 @@
 		<title></title>
 	</head>
 	<body>
+		<div class="container">
 		<nav>
 			<a href="/products/new">Add a New Product</a>
 		</nav>
@@ -13,6 +14,18 @@
 			<% products.forEach(products => { %>
 			<li><%=products.name; %></li>
 			<% }) %>
+			<form class="registration" style="display: inline; margin-left: 15px;" 
+						 action="/products/<%= products.id %>?_method=DELETE" method="POST">
+							<input type="submit" value="DELETE"/>
+					</form>
+					<a href="/products/<%=products._id %>/edit">Edit</a>
+				</li>
+			<% }) %>
+		
+		</ul>
+	</div>
+	</body>
+</html>
 		</ul>
 	</body>
 </html>
