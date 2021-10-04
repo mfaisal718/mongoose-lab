@@ -5,9 +5,6 @@ require('dotenv').config();
 const mongoose = require("mongoose")
 
 
-//MIDDLEWARE
-//BODY PARSAR middleware: give us access to req.body
-app.use(express.urlencoded({ extended: true }));
 
 //Database connection
 mongoose.connect(process.env.DATABASE_URL, {
@@ -24,6 +21,11 @@ db.on('disconnected', () => console.log('mongo disconnected'));
 
 const productsControllers = require("./controllers/products.js")
 app.use("/products", productsControllers)
+
+//MIDDLEWARE
+//BODY PARSAR middleware: give us access to req.body
+app.use(express.urlencoded({ extended: true }));
+
 // Listener
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`express is listening on port: ${PORT}`));
