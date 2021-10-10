@@ -67,20 +67,12 @@ productsRouter.post("/", (req, res) => {
 // });
 //});
 // SHOW
-//productsRouter.get('/:id', (req, res) => {
-//products.findById(req.params.id, (err, foundProducts) => {
-//res.render('show.ejs', {
-//products: foundProducts,
-//});
-//});
-//});
-
-//app.get('/products/seed', (req, res) => {
-//	products.deleteMany({}, (error, allProducts) => {});
-
-//	products.create(productsSeed, (error, data) => {
-//		res.redirect('/products');
-//	});
-//});
+productsRouter.get('/:id', (req, res) => {
+    products.findById(req.params.id, (err, foundProducts) => {
+        res.render('show.ejs', {
+            products: foundProducts,
+        });
+    });
+});
 // Export functionality
 module.exports = productsRouter;
