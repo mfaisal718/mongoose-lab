@@ -2,14 +2,19 @@
 const express = require("express");
 const productsRouter = express.Router();
 const products = require("../models/products.js");
+const productsSeed = require('./models/productsSeed.js');
 
 //ROUTES
+// seed
+
+app.get('/products/seed', (request, response) => {
+    Products.deleteMany({}, (error, allProducts) => { })
+    Products.create(productsSeed, (error, data) => {
+        response.redirect('/products')
+    })
+})
 // INDEX
 productsRouter.get("/", (req, res) => {
-    // original send route to check if working
-    // res.send("index");
-    // test to show "name"
-    // res.render("index.ejs",{name: 'Paul'});
     products.find({}, (error, allProducts) => {
         res.render('index.ejs', {
             products: allProducts,
@@ -46,9 +51,6 @@ productsRouter.get("/", (req, res) => {
 // CREATE
 productsRouter.post("/", (req, res) => {
     console.log('post create route hit')
-
-
-    //res.send(req.body);
     console.log(req.body)
     products.create(req.body, (error, createdProducts) => {
         console.log(error)
@@ -72,8 +74,6 @@ productsRouter.post("/", (req, res) => {
 //});
 //});
 //});
-// Seed
-//const productsSeed = require('./models/productsSeed.js');
 
 //app.get('/products/seed', (req, res) => {
 //	products.deleteMany({}, (error, allProducts) => {});

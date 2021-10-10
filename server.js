@@ -1,31 +1,36 @@
-// Dependencies
+require('dotenv').config()
+
+const { render } = require('ejs');
+const { request, response } = require('express');
+//___________________
+//Dependencies
+//___________________
 const express = require('express');
+const methodOverride = require('method-override');
+const mongoose = require('mongoose');
 const app = express();
-require('dotenv').config();
-const mongoose = require("mongoose")
+const db = mongoose.connection;
+const products = require('./models/products.js')
+const productsSeed = require('./models/productsSeed')
+const MONGODB_URI = process.env.MONGODB_URI;
+const PORT = process.env.PORT || 3000
 
-
-
-//Database connection
-mongoose.connect(process.env.DATABASE_URL, {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+}
+);
 
-// Database Connection Error/Success
-// Define callback functions for various events
-const db = mongoose.connection
-db.on('error', (err) => console.log(err.message + ' is mongo not running?'));
-db.on('connected', () => console.log('mongo connected'));
-db.on('disconnected', () => console.log('mongo disconnected'));
+// Error / success
+db.on('error', (err) => console.log(err.message + ' is mongod not running?'));
+db.on('connected', () => console.log('mongod connected '));
+db.on('disconnected', () => console.log('mongod disconnected'));
 
-const productsControllers = require("./controllers/products.js")
-app.use("/products", productsControllers)
+app.use(methodOverride('_method'));
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
-//MIDDLEWARE
-//BODY PARSAR middleware: give us access to req.body
-app.use(express.urlencoded({ extended: true }));
 
-// Listener
-const PORT = process.env.PORT;
-app.listen(PORT, () => console.log(`express is listening on port: ${PORT}`));
+app.listen(PORT, () => console.log('express is listening on:', PORT));
+
+
